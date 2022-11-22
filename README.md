@@ -8,8 +8,8 @@ This repository contains different hand-made tools for helping in the resolution
 
 ### Bandit
 - Connection and management tool
-- Autosolver upon 25 level
+- Automatic solver up to level 25
 
 ### Leviathan
 - Connection and management tool
-- Autosolver of all levels
+- Automatic solver of all levels
