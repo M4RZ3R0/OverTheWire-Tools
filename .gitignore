@@ -127,3 +127,5 @@ dmypy.json
 
 # Pyre type checker
 .pyre/
+bandit/bandit_pass
+leviathan/leviathan_pass

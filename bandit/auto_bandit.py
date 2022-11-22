@@ -159,15 +159,16 @@ def solve_bandit(level):
             24), "cd $(mktemp -d) && echo {} | base64 -d > script.sh && chmod +x script.sh && ./script.sh".format(script)).split("The password of user bandit25 is ")[1].strip()
 
 
-
 def show_passwords():
     for level, password in passwords.items():
         print('bandit{}:{}'.format(str(level), password))
+
 
 def write_passwords():
     passwords_file = open('bandit_pass', 'w')
     for level, password in passwords.items():
         passwords_file.write('bandit{}:{}\n'.format(str(level), password))
+
 
 i = 0
 while i < 34:
