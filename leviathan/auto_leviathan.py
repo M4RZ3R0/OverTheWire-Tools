@@ -41,7 +41,8 @@ def solve_leviathan(level):
         case 2:
             # Level 2
             p.status('2')
-            solve_one_command(2, 'cd $(mktemp -d) && chmod 777 . && ln -s /etc/leviathan_pass/leviathan3 pass && touch "pass test" && touch test && ~/printfile "pass test"')
+            solve_one_command(
+                2, 'cd $(mktemp -d) && chmod 777 . && ln -s /etc/leviathan_pass/leviathan3 pass && touch "pass test" && touch test && ~/printfile "pass test"')
         case 3:
             # Level 3
             p.status('3')
@@ -52,13 +53,16 @@ def solve_leviathan(level):
         case 4:
             # Level 4
             p.status('4')
-            binary = execute_command(connectToLevel(4), '.trash/bin').replace(' ', '')
+            binary = execute_command(connectToLevel(
+                4), '.trash/bin').replace(' ', '')
             binary = int(binary, 2)
-            passwords[5] = binascii.unhexlify('%x' % binary).decode('utf-8').strip()
+            passwords[5] = binascii.unhexlify(
+                '%x' % binary).decode('utf-8').strip()
         case 5:
             # Level 5
             p.status('5')
-            solve_one_command(5, 'ln -s /etc/leviathan_pass/leviathan6 /tmp/file.log && ./leviathan5')
+            solve_one_command(
+                5, 'ln -s /etc/leviathan_pass/leviathan6 /tmp/file.log && ./leviathan5')
         case 6:
             # Level 6
             p.status('6')
@@ -72,13 +76,11 @@ def solve_leviathan(level):
                         ~/leviathan6 $i | grep -v -E Wrong
                     done
                     """.encode('utf-8')).decode('utf-8')
-            exe = connectToLevel(6).run('cd $(mktemp -d) && echo {} | base64 -d > script.sh && chmod +x script.sh && ./script.sh'.format(script))
+            exe = connectToLevel(6).run(
+                'cd $(mktemp -d) && echo {} | base64 -d > script.sh && chmod +x script.sh && ./script.sh'.format(script))
             sleep(20)
             exe.sendline("cat /etc/leviathan_pass/leviathan7")
             passwords[7] = exe.recvline().decode('utf-8').strip()
-        case 7:
-            # Level 7
-            p.status('7')
 
 
 def show_passwords():

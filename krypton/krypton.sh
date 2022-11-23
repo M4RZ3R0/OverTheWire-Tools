@@ -1,9 +1,9 @@
 #!/bin/bash
 
-MAXLEVEL=33
+MAXLEVEL=7
 
 function change_password {
-    sed -i "$(expr $level + 1) c\\bandit$level\:$password" bandit_pass
+    sed -i "$(expr $level + 1) c\\krypton$level\:$password" krypton_pass
 }
 
 if [ $# -eq 0 -o $# -eq 1 ]
@@ -13,18 +13,18 @@ then
     exit 1
 fi
 
-if [ ! -f bandit_pass ]
+if [ ! -f krypton_pass ]
 then
-    echo "Error - Password file 'bandit_pass' doesn't exist"
+    echo "Error - Password file 'krypton_pass' doesn't exist"
     echo -n "Create password file? (y/n) "
     read choice
     
     if [ $choice == 'y' ]
     then
-        echo "bandit0:bandit0" >bandit_pass
-        for (( i = 1; i <= $MAXLEVEL; i++ ))
+        echo "krypton1:KRYPTONISGREAT" >krypton_pass
+        for (( i = 2; i <= $MAXLEVEL; i++ ))
         do
-            echo "bandit$i:" >>bandit_pass
+            echo "krypton$i:" >>krypton_pass
         done
     else
         exit 1
@@ -34,7 +34,7 @@ fi
 if [ $1 == "connect" ]
 then
     level=$2
-    user_pass=($(grep "bandit$level:" bandit_pass | tr ":" "\n"))
+    user_pass=($(grep "krypton$level:" krypton_pass | tr ":" "\n"))
     password=${user_pass[1]}
 
     if [ -z $password ]
@@ -45,7 +45,7 @@ then
     fi
     while [ $level -le $MAXLEVEL ]
     do
-        sshpass -p "$password" ssh bandit$level@bandit.labs.overthewire.org -p2220
+        sshpass -p "$password" ssh krypton$level@krypton.labs.overthewire.org -p2231
         
         level=$(expr $level + 1)
         echo -n "Do you have the password in the clipboard? (y/n) "

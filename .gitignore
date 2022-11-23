@@ -129,3 +129,5 @@ dmypy.json
 .pyre/
 bandit/bandit_pass
 leviathan/leviathan_pass
+krypton/krypton_pass
+krypton_pass
