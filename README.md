@@ -10,6 +10,10 @@ This repository contains different hand-made tools for helping in the resolution
 - Connection and management tool
 - Automatic solver up to level 25
 
+### Krypton
+- Connection and management tool
+- Automatic solver of all levels
+
 ### Leviathan
 - Connection and management tool
 - Automatic solver of all levels

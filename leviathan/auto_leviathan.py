@@ -78,34 +78,33 @@ def solve_leviathan(level):
                     """.encode('utf-8')).decode('utf-8')
             exe = connectToLevel(6).run(
                 'cd $(mktemp -d) && echo {} | base64 -d > script.sh && chmod +x script.sh && ./script.sh'.format(script))
-            sleep(20)
-            exe.sendline("cat /etc/leviathan_pass/leviathan7")
+            exe.sendline(b"cat /etc/leviathan_pass/leviathan7")
             passwords[7] = exe.recvline().decode('utf-8').strip()
 
 
-def show_passwords():
-    for level, password in passwords.items():
-        print('leviathan{}:{}'.format(str(level), password))
+# Append password to file
+def write_password(level):
+    passwords_file = open('leviathan_pass', 'a')
+    passwords_file.write('leviathan{}:{}\n'.format(str(level), passwords[level]))
+    passwords_file.close()
 
-
-def write_passwords():
-    passwords_file = open('leviathan_pass', 'w')
-    for level, password in passwords.items():
-        passwords_file.write('leviathan{}:{}\n'.format(str(level), password))
-
+# Write first password
+passwords_file = open('leviathan_pass', 'w')
+passwords_file.write('leviathan0:{}\n'.format(passwords[0]))
+passwords_file.close()
 
 i = 0
-while i < 34:
+while i < 7:
     try:
         solve_leviathan(i)
+        write_password(i+1)
     except (ConnectionError, paramiko.ssh_exception.SSHException):
         print("Connection Error. Retrying...")
     else:
         i += 1
 
 p.success('All levels solved')
-show_passwords()
-save = input("Do you want to save the passwords to a file? (y/n): ")
 
-if 'y' in save:
-    write_passwords()
+# Show passwords
+for level, password in passwords.items():
+    print('leviathan{}:{}'.format(str(level), password))

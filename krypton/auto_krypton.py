@@ -76,33 +76,32 @@ def solve_krypton(level):
         case 6:
             # Level 6
             p.status('6')
-            passwords[6] = decrypt_stream(execute_command(connectToLevel(
+            passwords[7] = decrypt_stream(execute_command(connectToLevel(
                 6), "cat /krypton/krypton6/krypton7").replace(' ', ''), execute_command(connectToLevel(6), "cd $(mktemp -d) && chmod 777 . && ln -s /krypton/krypton6/keyfile.dat && python3 -c 'print(\"A\" * 30)' > plain.txt && /krypton/krypton6/encrypt6 plain.txt cipher.txt && cat cipher.txt"))
 
+# Append password to file
+def write_password(level):
+    passwords_file = open('krypton_pass', 'a')
+    passwords_file.write('krypton{}:{}\n'.format(str(level), passwords[level]))
+    passwords_file.close()
 
-def show_passwords():
-    for level, password in passwords.items():
-        print('krypton{}:{}'.format(str(level), password))
+# Write first password
+passwords_file = open('krypton_pass', 'w')
+passwords_file.write('krypton1:{}\n'.format(passwords[1]))
+passwords_file.close()
 
-
-def write_passwords():
-    passwords_file = open('krypton_pass', 'w')
-    for level, password in passwords.items():
-        passwords_file.write('krypton{}:{}\n'.format(str(level), password))
-
-
-i = 0
-while i < 34:
+i = 1
+while i < 7:
     try:
         solve_krypton(i)
+        write_password(i+1)
     except (ConnectionError, paramiko.ssh_exception.SSHException):
         print("Connection Error. Retrying...")
     else:
         i += 1
 
 p.success('All levels solved')
-show_passwords()
-save = input("Do you want to save the passwords to a file? (y/n): ")
 
-if 'y' in save:
-    write_passwords()
+# Show passwords
+for level, password in passwords.items():
+    print('krypton{}:{}'.format(str(level), password))

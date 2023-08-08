@@ -128,6 +128,8 @@ dmypy.json
 # Pyre type checker
 .pyre/
 bandit/bandit_pass
+bandit/sshkey_bandit17
+bandit/sshkey.private
 leviathan/leviathan_pass
 krypton/krypton_pass
 krypton_pass

@@ -26,6 +26,8 @@ def solve_one_command(level, command):
 
 def solve_bandit(level):
     match level:
+        case -1:
+            pass
         case 0:
             # Level 0
             p.status('0')
@@ -159,30 +161,30 @@ def solve_bandit(level):
             passwords[25] = execute_command(connectToLevel(
                 24), "cd $(mktemp -d) && echo {} | base64 -d > script.sh && chmod +x script.sh && ./script.sh".format(script)).split("The password of user bandit25 is ")[1].strip()
 
+# Append password to file
+def write_password(level):
+    passwords_file = open('bandit_pass', 'a')
+    passwords_file.write('bandit{}:{}\n'.format(str(level), passwords[level]))
+    passwords_file.close()
 
-def show_passwords():
-    for level, password in passwords.items():
-        print('bandit{}:{}'.format(str(level), password))
+# Write first password
+passwords_file = open('bandit_pass', 'w')
+passwords_file.write('bandit0:{}\n'.format(passwords[0]))
+passwords_file.close()
 
-
-def write_passwords():
-    passwords_file = open('bandit_pass', 'w')
-    for level, password in passwords.items():
-        passwords_file.write('bandit{}:{}\n'.format(str(level), password))
-
-
+# Solve all levels
 i = 0
-while i < 34:
+while i < 24:
     try:
         solve_bandit(i)
+        write_password(i+1)
     except (ConnectionError, paramiko.ssh_exception.SSHException):
         print("Connection Error. Retrying...")
     else:
         i += 1
 
 p.success('All levels solved')
-show_passwords()
-save = input("Do you want to save the passwords to a file? (y/n): ")
 
-if 'y' in save:
-    write_passwords()
+# Show passwords
+for level, password in passwords.items():
+    print('bandit{}:{}'.format(str(level), password))
